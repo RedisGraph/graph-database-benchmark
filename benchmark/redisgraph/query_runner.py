@@ -51,7 +51,7 @@ class RedisGraphQueryRunner(QueryRunner):
             raise e
             return -1
         else:
-            return float(result[0][1][0]) if len(result[0]) == 2 else 0
+            return float(result[1][0][0])
 
 
 # TigerGraph query runner (compatible with v2.1.8)

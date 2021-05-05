@@ -51,13 +51,14 @@ Sample output:
 
 Sample output:
 ```bash
-+python bulk_insert.py graph500_22 -n data/graph500_22_unique_node -r data/graph500_22
-graph500_22_unique_node  [####################################]  100%          
-2396019 nodes created with label 'graph500_22_unique_node'
-graph500_22  [####################################]  100%          
-67108863 relations created for type 'graph500_22'
-Construction of graph 'graph500_22' complete: 2396019 nodes created, 67108863 relations created in 1410.983482 seconds
-+python graph_query.py --name "graph500_22" --query "create index on :graph500_22_unique_node(id)"
+$ ./scripts/redisgraph_load_graph500.sh 
++ redisgraph-bulk-loader graph500_22 -n /tmp/bulk_data/graph500_22/Node.csv -r /tmp/bulk_data/graph500_22/IS_CONNECTED.csv --separator '	' --skip-invalid-edges --host 127.0.0.1 --port 6379
+Node  [####################################]  100%          
+2396019 nodes created with label 'Node'
+IS_CONNECTED  [####################################]  100%          
+67108864 relations created for type 'IS_CONNECTED'
+Construction of graph 'graph500_22' complete: 2396019 nodes created, 67108864 relations created in 1991.653816 seconds
++ python graph_query.py --name graph500_22 --query 'create index on :IS_CONNECTED(id)' --host 127.0.0.1 --port 6379
 ```
 
 ##### Twitter Benchmark

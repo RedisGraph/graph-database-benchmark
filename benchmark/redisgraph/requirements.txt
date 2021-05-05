@@ -2,3 +2,4 @@ Click>=7.0
 redis>=3.3.8
 requests>=2.22.0
 hdrhistogram
+redisgraph-bulk-loader

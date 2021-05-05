@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 # Data folder
-DATASET_NAME=${DATASET_NAME:-"graph500_22"}
-EDGE_FILE=${EDGE_FILE:-"http://service.tigergraph.com/download/benchmark/dataset/graph500-22/graph500-22"}
-NODE_FILE=${NODE_FILE:-"http://service.tigergraph.com/download/benchmark/dataset/graph500-22/graph500-22_unique_node"}
+DATASET_NAME=${DATASET_NAME:-"graph500_22-tmp"}
+EDGE_FILE_URL=${EDGE_FILE_URL:-"https://s3.amazonaws.com/benchmarks.redislabs/redisgraph/datasets/graph500-22/IS_CONNECTED.csv"}
+NODE_FILE_URL=${NODE_FILE_URL:-"https://s3.amazonaws.com/benchmarks.redislabs/redisgraph/datasets/graph500-22/Node.csv"}
 BULK_DATA_DIR=${BULK_DATA_DIR:-"/tmp/bulk_data"}
 
 # Ensure DATA DIR available
@@ -14,31 +14,30 @@ chmod a+rwx ${BULK_DATA_DIR}
 mkdir -p ${BULK_DATA_DIR}/${DATASET_NAME}
 chmod a+rwx ${BULK_DATA_DIR}/${DATASET_NAME}
 
-DATA_SEED_FILE_NAME=${BULK_DATA_DIR}/${DATASET_NAME}/graph500_22_seed
-DATA_EDGE_FILE_NAME=${BULK_DATA_DIR}/${DATASET_NAME}/graph500_22
-DATA_NODE_FILE_NAME=${BULK_DATA_DIR}/${DATASET_NAME}/graph500_22_unique_node
+LOCAL_EDGE_FILE=${BULK_DATA_DIR}/${DATASET_NAME}/IS_CONNECTED.csv
+LOCAL_NODE_FILE=${BULK_DATA_DIR}/${DATASET_NAME}/Node.csv
 
-cp graph500_22_seed ${DATA_SEED_FILE_NAME}
 echo ""
 echo "---------------------------------------------------------------------------------"
-echo "Retrieving ${EDGE_FILE}"
+echo "Retrieving IS_CONNECTED.csv to ${LOCAL_EDGE_FILE}"
 echo "---------------------------------------------------------------------------------"
 
-if [ ! -f ${DATA_EDGE_FILE_NAME} ]; then
-  echo "${EDGE_FILE} not found locally at ${DATA_EDGE_FILE_NAME}. Retrieving..."
-  curl ${EDGE_FILE} > ${DATA_EDGE_FILE_NAME}
+if [ ! -f ${LOCAL_EDGE_FILE} ]; then
+  echo "${LOCAL_EDGE_FILE} not found locally. Retrieving... it from ${EDGE_FILE_URL}"
+  curl ${EDGE_FILE_URL} > ${LOCAL_EDGE_FILE}
 else
-  echo "Dataset found locally at ${DATA_EDGE_FILE_NAME}. No need to retrieve again."
+  echo "Dataset found locally at ${LOCAL_EDGE_FILE}. No need to retrieve again."
 fi
 
 echo ""
 echo "---------------------------------------------------------------------------------"
-echo "Retrieving ${NODE_FILE}"
+echo "Retrieving Node.csv to ${LOCAL_NODE_FILE}"
 echo "---------------------------------------------------------------------------------"
 
-if [ ! -f ${DATA_NODE_FILE_NAME} ]; then
-  echo "${NODE_FILE} not found locally at ${DATA_NODE_FILE_NAME}. Retrieving..."
-  curl ${NODE_FILE} > ${DATA_NODE_FILE_NAME}
+if [ ! -f ${LOCAL_NODE_FILE} ]; then
+  echo "${LOCAL_NODE_FILE} not found locally. Retrieving... it from ${NODE_FILE_URL}"
+  curl ${NODE_FILE_URL} > ${LOCAL_NODE_FILE}
 else
-  echo "Dataset found locally at ${DATA_NODE_FILE_NAME}. No need to retrieve again."
+  echo "Dataset found locally at ${LOCAL_NODE_FILE}. No need to retrieve again."
 fi
+

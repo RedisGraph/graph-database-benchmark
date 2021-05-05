@@ -24,7 +24,7 @@ echo "--------------------------------------------------------------------------
 
 if [ ! -f ${LOCAL_EDGE_FILE} ]; then
   echo "${LOCAL_EDGE_FILE} not found locally. Retrieving... it from ${EDGE_FILE_URL}"
-  curl ${EDGE_FILE_URL} > ${LOCAL_EDGE_FILE}
+  curl ${EDGE_FILE_URL} >${LOCAL_EDGE_FILE}
 else
   echo "Dataset found locally at ${LOCAL_EDGE_FILE}. No need to retrieve again."
 fi
@@ -36,8 +36,7 @@ echo "--------------------------------------------------------------------------
 
 if [ ! -f ${LOCAL_NODE_FILE} ]; then
   echo "${LOCAL_NODE_FILE} not found locally. Retrieving... it from ${NODE_FILE_URL}"
-  curl ${NODE_FILE_URL} > ${LOCAL_NODE_FILE}
+  curl ${NODE_FILE_URL} >${LOCAL_NODE_FILE}
 else
   echo "Dataset found locally at ${LOCAL_NODE_FILE}. No need to retrieve again."
 fi
-
